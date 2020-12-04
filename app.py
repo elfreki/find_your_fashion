@@ -65,11 +65,8 @@ def upload():
                 print("Saving Product: %s" % product['title'])
                 json.dump(product, outfile)
                 outfile.write("\n")
-
-    # return send_from_directory("images", filename, as_attachment=True)
-
-    return render_template("template.html",image_name=filename, text=prediction)
-
+    f = open("search_results_output.jsonl","r")
+    return render_template("template.html",name = "/upload/" + filename, text=prediction, json = f.read())
 
 e = Extractor.from_yaml_file('search_results.yml')
 
