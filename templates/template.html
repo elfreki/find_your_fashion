@@ -1,69 +1,50 @@
-<!DOCTYPE html>
-<html >
-<!--From https://codepen.io/frytyler/pen/EGdtg-->
-<head>
-  <meta charset="UTF-8">
-  <title>Find Fashion</title>
-  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<!doctype html>
+<html>
+    <head><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></head>
+    <script>
 
 
+function myFunction(str){
+    var datas = JSON.parse(str);
+    console.log(str);
+    var nodee = document.createElement('a');
+    var node = document.createElement('figure');
+var nod = document.createElement('img');
+var no = document.createElement('figcaption');
+var n = document.createElement('figcaption');
+//console.log('<li><a href="https://www.amazon.com/' + datas.url + '"><img src="' + datas.img + '" alt="' + datas.title + '"></a></li>');
+var text = document.createTextNode(datas.title);
+var ext = document.createTextNode(datas.price);
+no.appendChild(text);
+n.appendChild(ext);
+nod.src = datas.img;
+nod.wodth = "300px";
+node.appendChild(nod);
+node.appendChild(no);
+node.appendChild(n);
+node.style = style="float: left; margin-right: 20px; margin-bottom: 20px;"
+nodee.appendChild(node);
+nodee.href = "https://www.amazon.com/" + datas.url;
+document.getElementById("imageGallery").appendChild(nodee);
+//console.log(datas[0]);
 
-<style>
-  ::placeholder {
-    color:rgb(13, 13, 14);
-    opacity:0.8; /* Firefox */
-    font-weight: bold;
-  }
-  </style>
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-
-  <script>
-
-    $("#file-picker").change(function(){
-
-        var input = document.getElementById('file-picker');
-
-        for (var i=0; i<input.files.length; i++)
-        {
-            var ext= input.files[i].name.substring(input.files[i].name.lastIndexOf('.')+1).toLowerCase()
-
-            if ((ext == 'jpg') || (ext == 'png'))
-            {
-                $("#msg").text("Files are supported")
-            }
-            else
-            {
-                $("#msg").text("Files are NOT supported")
-                document.getElementById("file-picker").value ="";
-            }
-
-        }
+}
 
 
-    } );
-
-</script>
-
-</head>
-<body style="background-image: url('{{ url_for('static', filename='bg2.png') }}');
-background-repeat:no-repeat;
-background-size:cover;
-height:100vh;
-display:flex;
-">
-<marquee direction="left" style="color: orangered;"><h3>Find --- Your Fashion</h3></marquee>
-<div class="login card" style="color: orangered;">
-Uploaded Image:
-<br><br>
-<img src=" {{url_for('send_image', filename=image_name)}}" style="width:300px;height:300px;">
-<br>
-{{text}}
-<a style="text-decoration: none; display: block; margin: 20px auto;" class="btn btn-primary btn-block btn-large" href="/" role="button">Predict Another image</a>
-</div>
-
-</body>
+    </script>
+    <body>
+        <div class="container">
+            <h1>Smart Object Detection</h1>
+            <h2>Query:</h2>
+            {% if name %}
+            <img src="{{name}}" width="300px">
+            {% endif %}
+            <h2 >Results:</h2>
+            <div id="imageGallery">
+                {%for line in json.splitlines() %}
+                    <script>myFunction({{line|tojson}});</script>
+                {%endfor%}
+            </div>
+        </div>
+    </body>
 </html>
